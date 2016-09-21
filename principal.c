@@ -43,9 +43,10 @@ menu(arvore *arv)
 		char nome[30];
 		char email[30];
 		char telefone[11];
-		printf("\nNome: ");		carregar_pelo_arquivo(arv, gets(nome));
-		printf("\nEmial: ");		carregar_pelo_arquivo(arv, gets(email));
-		printf("\nTelefone: ");		carregar_pelo_arquivo(arv, gets(telefone));
+		printf("\nNome: ");		gets(nome);
+		printf("\nEmial: ");	gets(email);		
+		printf("\nTelefone: ");	gets(telefone);
+		inserir_novo_aluno(arv, nome, email, telefone);
 	}
 	else if(op == 3)
 		imprimir(arv);
@@ -57,17 +58,23 @@ menu(arvore *arv)
 	else if(op == 5)
 	{
 		int matricula;
-		printf("\nMatricula: ");	buscar(arv, scanf("%d", &matricula));
+		fflush(stdin);
+		printf("\nMatricula: ");		scanf("%d", &matricula);
+		buscar(arv, matricula);
 	}
 	else if(op == 6)
 	{
 		int matricula;
-		printf("\nMatricula: ");	alterar_dados(arv, scanf("%d", &matricula));
+		fflush(stdin);
+		printf("\nMatricula: ");	scanf("%d", &matricula);
+		alterar_dados(arv, matricula);
 	}
 	else if(op == 7)
 	{
 		int matricula;
-		printf("\nMatricula: ");	remover(arv, scanf("%d", &matricula));
+		fflush(stdin);
+		printf("\nMatricula: ");	scanf("%d", &matricula);
+		remover(arv, matricula);
 	}
 	else if(op == 8)
 	{
@@ -88,7 +95,6 @@ menu(arvore *arv)
 int main(int argc, char *argv[]) {
 	arvore *arv = criar();
 	menu(arv);
-	printf("\n\n");
 	destruir(arv);
 	system("pause");
 	return 0;
