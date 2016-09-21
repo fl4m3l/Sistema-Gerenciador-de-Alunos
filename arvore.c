@@ -30,9 +30,14 @@ struct no
 arvore *
 criar()
 {
-   arvore *a = (arvore *)malloc(sizeof(arvore));
-   a->raiz = NULL;
-   return a;
+	arvore *a;
+	if ((a = (arvore *)malloc(sizeof(arvore))) == NULL)
+	{
+		printf("Erro, memoria insuficiente.\n");
+		exit(1);
+	}
+	a->raiz = NULL;
+	return a;
 }
 
 void
@@ -73,7 +78,11 @@ inserir(arvore *arv, aluno *aluno)
 	}
 	if (raiz == NULL)
 	{
-		raiz = (no *)malloc(sizeof(no));
+		if ((raiz = (no *)malloc(sizeof(no))) == NULL)
+		{
+			printf("Erro, memoria insuficiente.\n");
+			exit(1);
+		}
 		raiz->info =  aluno;
 		raiz->esq = NULL;
 		raiz->dir = NULL;
@@ -102,7 +111,12 @@ maior_no(no *raiz)
 void
 inserir_novo_aluno(arvore *arv, char nome[], char email[], char telefone[])
 {
-	aluno *alun = (aluno *)malloc(sizeof(aluno));
+	aluno *alun;
+	if ((alun = (aluno *)malloc(sizeof(aluno))) == NULL)
+	{
+		printf("Erro, memoria insuficiente.\n");
+		exit(1);
+	}
 	alun->matricula = maior_no(arv->raiz) + 1;
 	strcpy(alun->nome, nome);
 	strcpy(alun->email, email);
@@ -195,10 +209,12 @@ void
 carregar_pelo_arquivo(arvore *arv, char url[])
 {
 	FILE *arq;
-	
-	arq = fopen(url, "r");
-	if(arq == NULL)
-			printf("Erro, nao foi possivel abrir o arquivo\n");
+
+	if((arq = fopen(url, "r")) == NULL)
+	{
+		printf("Erro, nao foi possivel abrir o arquivo\n");
+		exit(1);
+	}
 	else
 	{
 		int matricula;
@@ -229,9 +245,11 @@ imprimir_alunos_arquivo(arvore *arv, char url[])
 	no *raiz = arv->raiz;
 	FILE *arq;
 	
-	arq = fopen(url, "r");
-	if(arq == NULL)
-			printf("Erro, nao foi possivel abrir o arquivo\n");
+	if((arq = fopen(url, "r")) == NULL)
+	{
+		printf("Erro, nao foi possivel abrir o arquivo\n");
+		exit(1);
+	}
 	else
 	{
 		int matricula;
@@ -269,7 +287,7 @@ alterar_dados(arvore *arv, int matricula)
 		char email[21];
 		char telefone[21];
 		printf("\n\nNome: ");	strcpy(raiz->info->nome, gets(nome));
-		printf("Email: ");	strcpy(raiz->info->email, gets(email));
+		printf("Email: ");		strcpy(raiz->info->email, gets(email));
 		printf("Telefone: ");	strcpy(raiz->info->telefone, gets(telefone));
 		
 	}
@@ -283,9 +301,11 @@ remover_pelo_arquivo(arvore *arv, char url[])
 	no *raiz = arv->raiz;
 	FILE *arq;
 	
-	arq = fopen(url, "r");
-	if(arq == NULL)
-			printf("Erro, nao foi possivel abrir o arquivo\n");
+	if((arq = fopen(url, "r")) == NULL)
+	{
+		printf("Erro, nao foi possivel abrir o arquivo\n");
+		exit(1);
+	}
 	else
 	{
 		int matricula;
