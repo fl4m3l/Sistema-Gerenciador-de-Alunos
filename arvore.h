@@ -10,6 +10,8 @@ void	remover(arvore *, int);
 void	carregar_pelo_arquivo(arvore *, char[]);
 void	alterar_dados(arvore *, int);
 void	remover_pelo_arquivo(arvore *, char[]);
+void	remover_todos(arvore *);
+void	salvar_em_arquivo(arvore *, char[]);
 
 void	imprimir(arvore *);
 void	buscar(arvore *, int);
