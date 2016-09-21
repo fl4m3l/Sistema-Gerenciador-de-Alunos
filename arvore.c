@@ -302,4 +302,3 @@ remover_pelo_arquivo(arvore *arv, char url[])
 	}
 	fclose(arq);
 }
-
