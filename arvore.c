@@ -154,38 +154,38 @@ remover_menor(no **praiz)
 	return me;
 }
 
-	void
-	remover(arvore *arv, int matricula)
+void
+remover(arvore *arv, int matricula)
+{
+	no* ant = NULL, *raiz = arv->raiz;
+	while (raiz != NULL && raiz->info->matricula != matricula)
 	{
-		no* ant = NULL, *raiz = arv->raiz;
-		while (raiz != NULL && raiz->info->matricula != matricula)
-		{
-			ant = raiz;
-			raiz = matricula < raiz->info->matricula ? raiz->esq : raiz->dir; 
-		}
-		if (raiz != NULL)
-		{
-			if (raiz->esq == NULL && raiz->dir == NULL)		//Folha
-			{
-				ajustar_ant(arv, ant, matricula, NULL);
-				free(raiz);
-			}
-			else if (raiz->esq != NULL && raiz->dir != NULL)	//Dois filhos
-				raiz->info->matricula = remover_menor(&raiz->dir);
-			else
-			{	//Um filho
-				if (raiz->esq != NULL)
-						ajustar_ant(arv, ant, matricula, raiz->esq);
-				else
-					ajustar_ant(arv, ant, matricula, raiz->dir);
-				free(raiz);
-			}
-			if (matricula == arv->maior_no)
-					arv->maior_no--;
-		}
-		else
-			printf("\n\nMatricula: %d nao encontrada", matricula);
+		ant = raiz;
+		raiz = matricula < raiz->info->matricula ? raiz->esq : raiz->dir; 
 	}
+	if (raiz != NULL)
+	{
+		if (raiz->esq == NULL && raiz->dir == NULL)		//Folha
+		{
+			ajustar_ant(arv, ant, matricula, NULL);
+			free(raiz);
+		}
+		else if (raiz->esq != NULL && raiz->dir != NULL)	//Dois filhos
+			raiz->info->matricula = remover_menor(&raiz->dir);
+		else
+		{	//Um filho
+			if (raiz->esq != NULL)
+					ajustar_ant(arv, ant, matricula, raiz->esq);
+			else
+				ajustar_ant(arv, ant, matricula, raiz->dir);
+			free(raiz);
+		}
+		if (matricula == arv->maior_no)
+				arv->maior_no--;
+	}
+	else
+		printf("\n\nMatricula: %d nao encontrada", matricula);
+}
 
 void
 carregar_pelo_arquivo(arvore *arv, char url[])
@@ -300,5 +300,50 @@ remover_pelo_arquivo(arvore *arv, char url[])
 			raiz = arv->raiz;
 		}		
 	}
+	fclose(arq);
+}
+
+void
+remover_todos_rec(no *raiz, arvore *arv)
+{ 
+	if (raiz != NULL) {
+		remover_todos_rec(raiz->esq, arv);
+		remover_todos_rec(raiz->dir, arv);
+		remover(arv, raiz->info->matricula);	
+	}
+}
+
+void
+remover_todos(arvore *arv)
+{ 
+	remover_todos_rec(arv->raiz, arv);
+}
+
+void
+salva_aluno(no *raiz, FILE *arq)
+{
+	if (raiz != NULL)
+	{
+		fprintf(arq, "%d | ", raiz->info->matricula);
+		fprintf(arq, "%s | ", raiz->info->nome);
+		fprintf(arq, "%s | ", raiz->info->email);
+		fprintf(arq, "%s\n", raiz->info->telefone);
+		salva_aluno(raiz->esq, arq);
+		salva_aluno(raiz->dir, arq);
+	}
+}
+
+void
+salvar_em_arquivo(arvore *arv, char url[])
+{
+	FILE *arq;
+	no *raiz = arv->raiz;
+
+	if ((arq = fopen(url, "w")) == NULL)
+	{
+		printf("Erro, nao foi possivel abrir o arquivo\n");
+		exit(1);
+	}
+	salva_aluno(arv->raiz, arq);
 	fclose(arq);
 }
