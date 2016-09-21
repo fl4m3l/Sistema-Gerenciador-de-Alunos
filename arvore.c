@@ -16,13 +16,11 @@ struct aluno
 
 struct arvore
 {
-	int maior_no;
 	no *raiz;
 };
 
 struct no
 {
-	int maior_no;
 	aluno *info;
 	no *pai;
 	no *esq;
@@ -34,7 +32,6 @@ criar()
 {
    arvore *a = (arvore *)malloc(sizeof(arvore));
    a->raiz = NULL;
-   a->maior_no = 0;
    return a;
 }
 
@@ -92,12 +89,21 @@ inserir(arvore *arv, aluno *aluno)
 	}	 
 }
 
+int
+maior_no(no *raiz)
+{
+	if (raiz == NULL)
+		return 0;
+	if (raiz->dir != NULL)
+		return maior_no(raiz->dir);
+	return raiz->info->matricula;
+}
+
 void
 inserir_novo_aluno(arvore *arv, char nome[], char email[], char telefone[])
 {
 	aluno *alun = (aluno *)malloc(sizeof(aluno));
-	alun->matricula = arv->maior_no + 1;
-	arv->maior_no = alun->matricula;
+	alun->matricula = maior_no(arv->raiz) + 1;
 	strcpy(alun->nome, nome);
 	strcpy(alun->email, email);
 	strcpy(alun->telefone, telefone);
@@ -180,8 +186,6 @@ remover(arvore *arv, int matricula)
 				ajustar_ant(arv, ant, matricula, raiz->dir);
 			free(raiz);
 		}
-		if (matricula == arv->maior_no)
-				arv->maior_no--;
 	}
 	else
 		printf("\n\nMatricula: %d nao encontrada", matricula);
@@ -210,8 +214,6 @@ carregar_pelo_arquivo(arvore *arv, char url[])
 			email[strlen(email) - 1] = '\0';
 			telefone[strlen(telefone) - 1] = '\0';
 			alun->matricula = matricula;
-			if (alun->matricula > arv->maior_no)
-				arv->maior_no = alun->matricula;
 			strcpy(alun->nome, nome);
 			strcpy(alun->email, email);
 			strcpy(alun->telefone, telefone);
