@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "arvore.h"
 #include <string.h>
+
+#include "arvore.h"
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
@@ -11,17 +12,28 @@ menu(arvore *arv)
 {
 	int op;
 
-	printf ("\n\n1. Carregar os alunos para memoria a partir da base de dados.\n"
-			"2. Inserir um novo aluno.\n"
-			"3. Listar os dados de todos os alunos por ordem de matricula.\n"
-			"4. Listar os dados de todos os alunos cujas matriculas estao contidas em um arquivo.\n"
-			"5. Consultar dados do aluno a partir da matricula.\n"
-			"6. Alterar os dados de nome, email e telefone a partir da matricula.\n"
-			"7. Remover um aluno a partir da matricula.\n"
-			"8. Remover os dados de todos os alunos cujas matriculas estao contidas em um arquivo.\n"
-			"9. Remover todos os alunos.\n"
-			"10. Salvar os alunos na base de dados.\n\n"
-			"Escolha uma opcao: ");
+	printf ("**************************************************************************************\n"
+			"|1. Carregar os alunos para memoria a partir da base de dados.                       |\n"
+			"**************************************************************************************\n"
+			"|2. Inserir um novo aluno.                                                           |\n"
+			"**************************************************************************************\n"
+			"|3. Listar os dados de todos os alunos por ordem de matricula.                       |\n"
+			"**************************************************************************************\n"
+			"|4. Listar os dados de todos os alunos cujas matriculas estao contidas em um arquivo.|\n"
+			"**************************************************************************************\n"
+			"|5. Consultar dados do aluno a partir da matricula.                                  |\n"
+			"**************************************************************************************\n"
+			"|6. Alterar os dados de nome, email e telefone a partir da matricula.                |\n"
+			"**************************************************************************************\n"
+			"|7. Remover um aluno a partir da matricula.                                          |\n"
+			"**************************************************************************************\n"
+			"|8. Remover os dados de todos os alunos cujas matriculas estao contidas em um arquivo.\n"
+			"**************************************************************************************\n"
+			"|9. Remover todos os alunos.                                                         |\n"
+			"**************************************************************************************\n"
+			"|10. Salvar os alunos na base de dados.                                              |\n"
+			"**************************************************************************************\n"
+			"\nEscolha uma opcao: ");
 	scanf("%d", &op);
 
 	while (op < 1 || op > 10)
@@ -44,8 +56,8 @@ menu(arvore *arv)
 		char email[30];
 		char telefone[11];
 		printf("\nNome: ");		gets(nome);
-		printf("\nEmial: ");	gets(email);		
-		printf("\nTelefone: ");	gets(telefone);
+		printf("Email: ");		gets(email);		
+		printf("Telefone: ");	gets(telefone);
 		inserir_novo_aluno(arv, nome, email, telefone);
 	}
 	else if(op == 3)
@@ -81,7 +93,15 @@ menu(arvore *arv)
 		char arq[30];
 		printf("\nNome do arquivo: ");		remover_pelo_arquivo(arv, gets(arq));
 	}
-	printf("\n\n1 para repetir ou 0 para sair: ");
+	else if(op == 9)
+		remover_todos(arv);
+	else
+	{
+		char nome_arq[30];
+		printf("Nome do arquivo: ");	gets(nome_arq);
+		salvar_em_arquivo(arv, nome_arq);
+	}
+	printf("\n[1] - REPETIR ou [0] - SAIR: ");
 	scanf("%d", &op);
 	while (op < 0 || op > 1)
 	{
