@@ -47,23 +47,23 @@ destruir(arvore *a)
 }
 
 void
-pre_ordem(no *raiz)
+in_ordem(no *raiz)
 {
 	if (raiz != NULL)
 	{
+		in_ordem(raiz->esq);
 		printf("\n\nMatricula: %d ", raiz->info->matricula);
 		printf("\nNome: %s ", raiz->info->nome);
 		printf("\nEmail: %s ", raiz->info->email);
 		printf("\nTelefone: %s ", raiz->info->telefone);
-		pre_ordem(raiz->esq);
-		pre_ordem(raiz->dir);
+		in_ordem(raiz->dir);
 	}
 }
 
 void
 imprimir(arvore *arv)
 {
-	pre_ordem(arv->raiz);
+	in_ordem(arv->raiz);
 	printf("\n");
 }
 
@@ -286,10 +286,15 @@ alterar_dados(arvore *arv, int matricula)
 		char nome[21];
 		char email[21];
 		char telefone[21];
-		printf("\n\nNome: ");	strcpy(raiz->info->nome, gets(nome));
-		printf("Email: ");		strcpy(raiz->info->email, gets(email));
-		printf("Telefone: ");	strcpy(raiz->info->telefone, gets(telefone));
-		
+		printf("\n\nNome: ");
+		gets(nome);
+		strcpy(raiz->info->nome, nome);
+		printf("Email: ");
+		gets(email);
+		strcpy(raiz->info->email, email);
+		printf("Telefone: ");
+		gets(telefone);
+		strcpy(raiz->info->telefone, telefone);
 	}
 	else
 		printf("\n\nMatricula: %d nao encontrada", matricula);
