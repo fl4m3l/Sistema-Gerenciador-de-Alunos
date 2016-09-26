@@ -1,3 +1,6 @@
+#ifndef _ARVORE_H
+#define _ARVORE_H
+
 typedef struct arvore arvore;
 typedef struct aluno aluno;
 
@@ -16,3 +19,5 @@ void	salvar_em_arquivo(arvore *, char[]);
 void	imprimir(arvore *);
 void	buscar(arvore *, int);
 void	imprimir_alunos_arquivo(arvore *, char[]);
+
+#endif /*_ARVORE_H*/
